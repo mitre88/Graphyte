@@ -111,8 +111,6 @@ class Graphite(QMainWindow):
 
         # Now add the input layout to the central layout
         central_layout.addLayout(self.input_layout)
-
-        self.bottom_bar.addWidget(spacer)
         #self.bottom_bar.addWidget(self.input_bar)
         # self.bottom_bar.addWidget(self.input_bar)
 
@@ -145,7 +143,9 @@ class Graphite(QMainWindow):
         self.update_graph()  # Trigger the graph update
 
     def update_graph(self):
-        function_text = self.input_bar.text()
+        function_text = self.input_bar.text().strip()
+        if not function_text:
+            return
         self.functions.append(function_text)
         self.function_list_widget.addItem(function_text)
         self.graph_widget.plot_function(self.functions)
@@ -166,7 +166,6 @@ class Graphite(QMainWindow):
             row = self.function_list_widget.row(selected_items[0])
             self.function_list_widget.takeItem(row)
             self.functions.remove(selected_item_text)
-            f = ["sin(x)", "cos(x)"]
             self.graph_widget.plot_function(self.functions)
 
 
